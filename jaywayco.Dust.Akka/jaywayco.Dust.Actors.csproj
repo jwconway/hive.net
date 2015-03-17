@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D86E3FFE-B104-4B90-AEC1-20E637A31ED7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>jaywayco.Dust.Actors</RootNamespace>
+    <AssemblyName>jaywayco.Dust.Actors</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Akka">
+      <HintPath>..\packages\Akka.0.8.0\lib\net45\Akka.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actors\AssemblyActor.cs" />
+    <Compile Include="Actors\LogginTypedActor.cs" />
+    <Compile Include="Messages\BootstrapPluginMessage.cs" />
+    <Compile Include="Messages\CreateAppDomainRequest.cs" />
+    <Compile Include="Messages\CreateAppDomainResponse.cs" />
+    <Compile Include="Actors\FileSystemActor.cs" />
+    <Compile Include="Actors\AppDomainActor.cs" />
+    <Compile Include="Actors\PluginActor.cs" />
+    <Compile Include="Messages\ImplementationsOfTypeRequest.cs" />
+    <Compile Include="Messages\ImplementationsOfTypeResponse.cs" />
+    <Compile Include="Messages\BootstrapPluginsFromAssemblyRequest.cs" />
+    <Compile Include="Actors\PluginBootstrapperActor.cs" />
+    <Compile Include="Messages\FilesInPathResponse.cs" />
+    <Compile Include="Messages\FilesInPathRequest.cs" />
+    <Compile Include="Actors\NodeActor.cs" />
+    <Compile Include="Messages\ResolvePluginsRequest.cs" />
+    <Compile Include="Actors\PluginStoreActor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\jaywayco.Dust\jaywayco.Dust.csproj">
+      <Project>{667E0A45-8E2F-4A31-81EA-DC2B2D522DB9}</Project>
+      <Name>jaywayco.Dust</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
