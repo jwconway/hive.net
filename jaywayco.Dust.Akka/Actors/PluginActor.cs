@@ -13,16 +13,24 @@ namespace jaywayco.Dust.Actors.Actors
 		{
 			Console.ForegroundColor = ConsoleColor.Blue;
 			Console.WriteLine("Starting plugin {0}", message.PluginAppDomain.FriendlyName);
+			Console.ResetColor();
+
+			var pluginInstance = message.PluginAppDomain.CreateInstanceAndUnwrap(message.PluginAssemblyName, message.PluginTypeName) as IPlugin;
+			pluginInstance.Start();
 		}
 	}
 
 	public class InitializePluginMessage
 	{
-		public InitializePluginMessage(AppDomain pluginAppDomain)
+		public InitializePluginMessage(AppDomain pluginAppDomain, string pluginAssemblyName, string pluginTypeName)
 		{
+			PluginTypeName = pluginTypeName;
+			PluginAssemblyName = pluginAssemblyName;
 			PluginAppDomain = pluginAppDomain;
 		}
 
 		public AppDomain PluginAppDomain { get; private set; }
+		public string PluginAssemblyName { get; private set; }
+		public string PluginTypeName { get; private set; }
 	}
 }

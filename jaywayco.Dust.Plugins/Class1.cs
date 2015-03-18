@@ -9,7 +9,44 @@ using Tombola.Logging;
 
 namespace jaywayco.Dust.Plugins
 {
+	[Serializable]
     public class ConsoleWriterPlugin : IPlugin
+    {
+	    public void Start()
+	    {
+		    throw new NotImplementedException();
+	    }
+    }
+
+	[Serializable]
+    public class ConsoleWriterPlugin2 : IPlugin
+    {
+	    public void Start()
+	    {
+		    throw new NotImplementedException();
+	    }
+    }
+
+	[Serializable]
+    public class ConsoleWriterPlugin3 : IPlugin
+    {
+	    public void Start()
+	    {
+		    throw new NotImplementedException();
+	    }
+    }
+
+	[Serializable]
+    public class ConsoleWriterPlugin4 : IPlugin
+    {
+	    public void Start()
+	    {
+		    throw new NotImplementedException();
+	    }
+    }
+
+	[Serializable]
+    public class ConsoleWriterPlugin5 : IPlugin
     {
 	    public void Start()
 	    {

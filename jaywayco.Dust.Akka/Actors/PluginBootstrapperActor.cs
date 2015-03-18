@@ -17,26 +17,18 @@ namespace jaywayco.Dust.Actors.Actors
 		{
 			try
 			{
-				var assemblyActorRef = Context.ActorOf(Props.Create<AssemblyActor>());
-				var appDomainActorRef = Context.ActorOf(Props.Create<AppDomainActor>());
 				var pluginActorRef = Context.ActorOf(Props.Create<PluginActor>());
 
-				var pluginImplementationsTask = assemblyActorRef.Ask<ImplementationsOfTypeResponse>(new ImplementationsOfTypeRequest(typeof(IPlugin), Assembly.LoadFrom(message.AssemblyPath)));
-
-				await pluginImplementationsTask.ContinueWith(task =>
-				{
-					foreach (var plugin in task.Result.Implementations)
-					{
-						var appDomainResponseTask = appDomainActorRef.Ask<CreateAppDomainResponse>(new CreateAppDomainRequest(plugin.FullName, Path.GetDirectoryName(message.AssemblyPath)));
-
-						appDomainResponseTask.ContinueWith(task2 => pluginActorRef.Tell(new InitializePluginMessage(task2.Result.AppDomain), Self));
-					}
-				});
+				//var pluginImplementationsTask = assemblyActorRef.Ask<ImplementationsOfTypeResponse>(new ImplementationsOfTypeRequest(typeof(IPlugin), Assembly.LoadFrom(message.AssemblyPath)));
+				var assembly = Assembly.LoadFrom(message.AssemblyPath);
+				var pluginImplementations = assembly
+									.GetTypes()
+									.Where(type => type.GetInterfaces().Any(interfaceType => interfaceType.FullName == typeof(IPlugin).FullName));
 				
-				foreach (var plugin in pluginImplementationsTask.Implementations)
+				foreach (var plugin in pluginImplementations)
 				{
-					var appDomainResponse = appDomainActorRef.Ask<CreateAppDomainResponse>(new CreateAppDomainRequest(plugin.FullName, Path.GetDirectoryName(message.AssemblyPath)));
-					pluginActorRef.Tell(new InitializePluginMessage(appDomainResponse.Result.AppDomain), Self);
+					var appDomain = AppDomain.CreateDomain(plugin.FullName, new Evidence(), Path.GetDirectoryName(message.AssemblyPath), AppDomain.CurrentDomain.BaseDirectory, false);
+					pluginActorRef.Tell(new InitializePluginMessage(appDomain, assembly.FullName, plugin.FullName), Self);
 				}
 			}
 			catch(Exception ex)

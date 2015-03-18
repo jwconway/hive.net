@@ -45,13 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actors\AssemblyActor.cs" />
     <Compile Include="Actors\LogginTypedActor.cs" />
     <Compile Include="Messages\BootstrapPluginMessage.cs" />
     <Compile Include="Messages\CreateAppDomainRequest.cs" />
     <Compile Include="Messages\CreateAppDomainResponse.cs" />
     <Compile Include="Actors\FileSystemActor.cs" />
-    <Compile Include="Actors\AppDomainActor.cs" />
     <Compile Include="Actors\PluginActor.cs" />
     <Compile Include="Messages\ImplementationsOfTypeRequest.cs" />
     <Compile Include="Messages\ImplementationsOfTypeResponse.cs" />
