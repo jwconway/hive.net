@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Hoist.Tester")]
+[assembly: AssemblyTitle("Hoist.Test.Plugins")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Hoist.Tester")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("Hoist.Test.Plugins")]
+[assembly: AssemblyCopyright("Copyright jwconway ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("55aa651c-6738-424e-9c1d-003a4aaa3653")]
+[assembly: Guid("b5dbb61b-fcd8-4e2d-b90e-c00c8c82c5b4")]
 
 // Version information for an assembly consists of the following four values:
 //
