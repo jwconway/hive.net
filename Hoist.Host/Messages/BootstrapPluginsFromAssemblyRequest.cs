@@ -1,8 +1,8 @@
 ﻿namespace Hoist.Host.Messages
 {
-	public class BootstrapPluginsFromAssemblyRequest
+	public class BootstrapPluginsFromAssemblyMessage
 	{
-		public BootstrapPluginsFromAssemblyRequest(string assemblyPath, int assemblyNumber)
+		public BootstrapPluginsFromAssemblyMessage(string assemblyPath, int assemblyNumber)
 		{
 			AssemblyNumber = assemblyNumber;
 			AssemblyPath = assemblyPath;

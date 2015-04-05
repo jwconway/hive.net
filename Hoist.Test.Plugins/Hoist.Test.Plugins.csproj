@@ -57,12 +57,13 @@
       <Project>{667E0A45-8E2F-4A31-81EA-DC2B2D522DB9}</Project>
       <Name>Hoist.Plugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\jaywayco.Dust.Plugins2\Hoist.Test.Plugins2.csproj">
-      <Project>{c1bf7c00-0933-46f8-86dd-285f867254e3}</Project>
-      <Name>Hoist.Test.Plugins2</Name>
+    <ProjectReference Include="..\Tester\Hoist.Tester.csproj">
+      <Project>{d5c9cdce-2e82-488a-b1f6-ae3b5c8f8803}</Project>
+      <Name>Hoist.Tester</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

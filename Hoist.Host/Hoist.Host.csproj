@@ -31,12 +31,37 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Akka">
-      <HintPath>..\packages\Akka.0.8.0\lib\net45\Akka.dll</HintPath>
+      <HintPath>..\packages\Akka.1.0.0-dev1504032244\lib\net45\Akka.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Akka.Cluster">
+      <HintPath>..\packages\Akka.Cluster.1.0.0-dev1504032244\lib\net45\Akka.Cluster.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Akka.Remote">
+      <HintPath>..\packages\Akka.Remote.1.0.0-dev1504032244\lib\net45\Akka.Remote.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers">
+      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.521\lib\net40\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers.Serialization">
+      <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.521\lib\net40\Google.ProtocolBuffers.Serialization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Helios">
+      <HintPath>..\packages\Helios.1.4.0\lib\net45\Helios.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.34\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,30 +70,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors\System\Cluster\ClusterMonitorActor.cs" />
+    <Compile Include="Actors\System\Cluster\ClusterBusNodeActor.cs" />
+    <Compile Include="Messages\RegisterMessage.cs" />
     <Compile Include="Messages\AddRouteToBroadCastListMessage.cs" />
-    <Compile Include="Actors\BaseUnTypedActor.cs" />
-    <Compile Include="Actors\PluginBroadCaster.cs" />
+    <Compile Include="Actors\BaseClasses\BaseUnTypedActor.cs" />
     <Compile Include="Messages\InitializePluginProcessMessage.cs" />
-    <Compile Include="Actors\BaseTypedActor.cs" />
-    <Compile Include="Actors\FileSystemActor.cs" />
-    <Compile Include="Actors\PluginProcessActor.cs" />
+    <Compile Include="Actors\BaseClasses\BaseTypedActor.cs" />
+    <Compile Include="Actors\System\Plugin\Store\FileSystem\FileSystemActor.cs" />
+    <Compile Include="Actors\System\Plugin\Bootstrap\Process\PluginProcessActor.cs" />
     <Compile Include="Messages\BootstrapPluginsFromAssemblyRequest.cs" />
-    <Compile Include="Actors\PluginBootstrapperActor.cs" />
+    <Compile Include="Actors\System\Plugin\Bootstrap\PluginBootstrapperActor.cs" />
     <Compile Include="Messages\FilesInPathResponse.cs" />
     <Compile Include="Messages\FilesInPathRequest.cs" />
-    <Compile Include="Actors\NodeActor.cs" />
     <Compile Include="Messages\ResolvePluginsRequest.cs" />
-    <Compile Include="Actors\PluginStoreActor.cs" />
+    <Compile Include="Actors\System\Plugin\Store\PluginStoreActor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="protos\google\protobuf\csharp_options.proto" />
+    <None Include="protos\google\protobuf\descriptor.proto" />
+    <None Include="protos\tutorial\addressbook.proto" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hoist.Plugin\Hoist.Plugin.csproj">
       <Project>{667E0A45-8E2F-4A31-81EA-DC2B2D522DB9}</Project>
       <Name>Hoist.Plugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CHANGES.txt" />
+    <Content Include="licenses\license.txt" />
+    <Content Include="licenses\protoc-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Actors\System\Plugin\Store\Nuget\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

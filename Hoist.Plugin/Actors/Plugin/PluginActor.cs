@@ -1,7 +1,7 @@
 ﻿using System;
 using Akka.Actor;
 
-namespace Hoist.Plugin
+namespace Hoist.Plugin.Actors.Plugin
 {
 	/// <summary>
 	/// This actor will handle control messages from the host in the plugins own app domain

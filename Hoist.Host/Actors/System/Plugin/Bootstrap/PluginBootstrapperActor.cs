@@ -4,22 +4,29 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
 using Akka.Actor;
+using Hoist.Host.Actors.BaseClasses;
+using Hoist.Host.Actors.System.Plugin.Bootstrap.Process;
 using Hoist.Host.Messages;
 using Hoist.Plugin;
 
-namespace Hoist.Host.Actors
+namespace Hoist.Host.Actors.System.Plugin.Bootstrap
 {
 	/// <summary>
 	/// Given an assembly reference will load a new appdomain and initialize its actor system
 	/// </summary>
-	public class PluginBootstrapperActor : BaseTypedActor, IHandle<BootstrapPluginsFromAssemblyRequest>
+	public class PluginBootstrapperActor : BaseTypedActor, IHandle<BootstrapPluginsFromAssemblyMessage>
 	{
-		public async void Handle(BootstrapPluginsFromAssemblyRequest message)
+		private readonly IActorRef pluginProcessActorRef;
+
+		public PluginBootstrapperActor()
+		{
+			pluginProcessActorRef = Context.ActorOf(Props.Create<PluginProcessActor>());	
+		}
+
+		public async void Handle(BootstrapPluginsFromAssemblyMessage message)
 		{
 			try
 			{
-				var pluginProcessActorRef = Context.ActorOf(Props.Create<PluginProcessActor>());
-
 				//get assembly ref
 				var assembly = Assembly.LoadFrom(message.AssemblyPath);
 

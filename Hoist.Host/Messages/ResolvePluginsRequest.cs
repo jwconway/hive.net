@@ -1,12 +1,8 @@
 ﻿namespace Hoist.Host.Messages
 {
-	public class CheckForNewPluginsRequest
+	public class CheckForNewPluginsMessage
 	{
-	}
-
-	public class GetAllPluginsRequest
-	{
-		public GetAllPluginsRequest(string folderPath)
+		public CheckForNewPluginsMessage(string folderPath)
 		{
 			FolderPath = folderPath;
 		}

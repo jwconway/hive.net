@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using Akka.Actor;
+using Hoist.Host.Actors.BaseClasses;
 using Hoist.Host.Messages;
 
-namespace Hoist.Host.Actors
+namespace Hoist.Host.Actors.System.Plugin.Store.FileSystem
 {
 	/// <summary>
 	/// File system tasks

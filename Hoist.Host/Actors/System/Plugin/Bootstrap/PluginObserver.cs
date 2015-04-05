@@ -8,9 +8,9 @@ namespace Hoist.Host.Actors
 	/// <summary>
 	/// Tracks routes to the plugin actors in the remote plugin actor systems and routes messages to them all
 	/// </summary>
-	public class PluginBroadCaster : BaseUntypedActor, IHandle<AddRouteToBroadCastListMessage>
+	public class PluginObserver : BaseUntypedActor, IHandle<AddRouteToBroadCastListMessage>
 	{
-		public PluginBroadCaster()
+		public PluginObserver()
 		{
 			RouteNames = new List<string>();
 		}

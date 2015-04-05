@@ -1,4 +1,5 @@
 ﻿using System;
+using Hoist.Plugin.Actors.Plugin;
 
 namespace Hoist.Plugin
 {
