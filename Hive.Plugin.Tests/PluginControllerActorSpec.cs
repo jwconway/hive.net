@@ -63,13 +63,7 @@ namespace Hive.Plugin.Tests
 			var pluginControllerActorRef = ActorOf(Props.Create(() => new PluginControllerActor(moqPluginStarter.Object)));
 			pluginControllerActorRef.Tell(new PluginActions.StartRequest());
 			this.ExpectMsg<PluginActions.AcknowledgedResponse>();
-			//WaitForStatus(PluginStatus.Starting, pluginControllerActorRef);
-			//pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
-			//ExpectMsg(new PluginStatusResponse(PluginStatus.Starting));
-			//Thread.Sleep(2000);
 			WaitForStatus(PluginStatus.Running, pluginControllerActorRef);
-			//pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
-			//ExpectMsg(new PluginStatusResponse(PluginStatus.Running));
 		}
 
 		[Fact]
@@ -80,31 +74,21 @@ namespace Hive.Plugin.Tests
 			var pluginControllerActorRef = ActorOf(Props.Create(() => new PluginControllerActor(moqPluginStarter.Object)));
 			pluginControllerActorRef.Tell(new PluginActions.StartRequest());
 			this.ExpectMsg<PluginActions.AcknowledgedResponse>();
-			//WaitForStatus(PluginStatus.Starting, pluginControllerActorRef);
-			//pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
-			//ExpectMsg(new PluginStatusResponse(PluginStatus.Starting));
 			WaitForStatus(PluginStatus.Faulted, pluginControllerActorRef);
-			//pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
-			//ExpectMsg(new PluginStatusResponse(PluginStatus.Faulted));
 		}
 
-		//[Fact]
-		//private void Send_start_request_to_slow_to_start_plugin_get_ack_get_starting_status_eventually_get_running()
-		//{
-		//	var moqPluginStarter = new Mock<IPluginAppStart>();
-		//	moqPluginStarter.Setup(pas => pas.StartPluginApp()).Callback(() => Thread.Sleep(2000));
-		//	var pluginControllerActorRef = ActorOf(Props.Create(() => new PluginControllerActor(moqPluginStarter.Object)));
-		//	pluginControllerActorRef.Tell(new PluginActions.StartRequest());
-		//	this.ExpectMsg<PluginActions.AcknowledgedResponse>();
-		//	pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
-		//	ExpectMsg(new PluginStatusResponse(PluginStatus.Starting));
-		//	Thread.Sleep(500);//not time for slow plugin app to start
-		//	pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
-		//	ExpectMsg(new PluginStatusResponse(PluginStatus.Starting));
-		//	Thread.Sleep(500);//time for slow plugin app to start
-		//	pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
-		//	ExpectMsg(new PluginStatusResponse(PluginStatus.Starting));
-		//}
+		[Fact]
+		private void Send_start_request_to_slow_to_start_plugin_get_ack_get_starting_status_eventually_get_running()
+		{
+			var moqPluginStarter = new Mock<IPluginAppStart>();
+			moqPluginStarter.Setup(pas => pas.StartPluginApp()).Callback(() => Thread.Sleep(300));
+			var pluginControllerActorRef = ActorOf(Props.Create(() => new PluginControllerActor(moqPluginStarter.Object)));
+			pluginControllerActorRef.Tell(new PluginActions.StartRequest());
+			this.ExpectMsg<PluginActions.AcknowledgedResponse>();
+			pluginControllerActorRef.Tell(new PluginActions.StatusRequest());
+			ExpectMsg(new PluginStatusResponse(PluginStatus.Starting));
+			WaitForStatus(PluginStatus.Running, pluginControllerActorRef);
+		}
 
 		private void WaitForStatus(PluginStatus pluginStatus, IActorRef pluginControllerActorRef)
 		{
