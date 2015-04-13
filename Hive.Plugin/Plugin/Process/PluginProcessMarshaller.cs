@@ -1,7 +1,7 @@
 ﻿using System;
-using Hive.Plugin.Actors.Plugin;
+using Hive.Plugin.Actors;
 
-namespace Hive.Plugin
+namespace Hive.Plugin.Plugin.Process
 {
 	/// <summary>
 	/// This is the hook that is used to initialize the plugin in its own process
@@ -10,12 +10,12 @@ namespace Hive.Plugin
 	[Serializable]
 	public class PluginProcessMarshaller : MarshalByRefObject
 	{
-		public void SetupPluginProcessActorSystem(int port)
+		public void SetupPluginProcessActorSystem()
 		{
 			try
 			{
 				var systemSetup = new PluginActorSystemSetup();
-				systemSetup.Initialize(port);
+				systemSetup.Initialize();
 			}
 			catch (Exception ex)
 			{

@@ -1,50 +1,51 @@
 ﻿using System;
 using Hive.Plugin;
+using Hive.Plugin.Plugin;
+using Microsoft.Practices.Unity;
 
 namespace Hive.Test.Plugins2
 {
     [Serializable]
-    public class ConsoleWriterPlugin : MarshalByRefObject, IPlugin
+    public class ConsoleWriterPlugin : PluginBase
     {
-	    public void Start()
+	    public override void RegisterPluginDependencies(UnityContainer builder)
 	    {
-		    throw new NotImplementedException();
+		    
+	    }
+
+	    public override IPluginAppStart GetPluginAppStart()
+	    {
+		    return new PluginAppStart2();
 	    }
     }
 
-	[Serializable]
-    public class ConsoleWriterPlugin2 : MarshalByRefObject, IPlugin
-    {
-	    public void Start()
-	    {
-		    throw new NotImplementedException();
-	    }
-    }
+	public class PluginAppStart2 : IPluginAppStart
+	{
+		public void StartPluginApp()
+		{
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine("Plugin2 Starting...");
+			Console.ResetColor();
+		}
 
-	[Serializable]
-    public class ConsoleWriterPlugin3 : MarshalByRefObject, IPlugin
-    {
-	    public void Start()
-	    {
-		    throw new NotImplementedException();
-	    }
-    }
+		public void StopPluginApp()
+		{
+			
+		}
 
-	[Serializable]
-    public class ConsoleWriterPlugin4 : MarshalByRefObject, IPlugin
-    {
-	    public void Start()
-	    {
-		    throw new NotImplementedException();
-	    }
-    }
+		public void PausePluginApp()
+		{
+			
+		}
 
-	[Serializable]
-    public class ConsoleWriterPlugin5 : MarshalByRefObject, IPlugin
-    {
-	    public void Start()
-	    {
-		    throw new NotImplementedException();
-	    }
-    }
+		public void DeletePluginApp()
+		{
+			
+		}
+
+		public void UnPausePluginApp()
+		{
+			
+		}
+	}
 }

@@ -5,6 +5,5 @@
 	/// </summary>
 	public interface IPlugin
 	{
-		void Start();
 	}
 }

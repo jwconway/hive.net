@@ -4,10 +4,11 @@ using Akka.Actor;
 using Akka.Configuration;
 using Akka.Routing;
 using Hive.Host.Messages;
+using Hive.Plugin.Messages.Control;
 
 namespace Hive.Host.Actors.System.Cluster
 {
-	public class ClusterBusNodeActor : TypedActor, IHandle<RegisterMessage>, IHandle<ListPluginsRequest>, IHandle<HiveControlMessage>
+	public class ClusterBusNodeActor : UntypedActor
 	{
 		private readonly List<IActorRef> members = new List<IActorRef>();
 		private IActorRef router;
@@ -17,25 +18,26 @@ namespace Hive.Host.Actors.System.Cluster
 			router = Context.ActorOf(Props.Empty.WithRouter(new BroadcastGroup(members)), "broadcaster");
 		}
 
-		public void Handle(RegisterMessage message)
+		protected override void OnReceive(object message)
 		{
-			if (message.Member.Roles.Contains("plugin"))
+			if (message is RegisterMessage)
 			{
-				var controllerRef = Context.ActorSelection(message.Member.Address.ToString() + "/user/controller").ResolveOne(TimeSpan.FromMilliseconds(10000)).Result;
-				router.Tell(new AddRoutee(Routee.FromActorRef(controllerRef)), Self);
-				members.Add(controllerRef);
+				var registerMessage = (RegisterMessage)message;
+				if (registerMessage.Member.Roles.Contains("plugin"))
+				{
+					var controllerRef = Context.ActorSelection(registerMessage.Member.Address.ToString() + "/user/controller").ResolveOne(TimeSpan.FromMilliseconds(10000)).Result;
+					router.Tell(new AddRoutee(Routee.FromActorRef(controllerRef)), Self);
+					members.Add(controllerRef);
+				}
 			}
-		}
-
-		public void Handle(ListPluginsRequest message)
-		{
-			Sender.Tell(new ListPluginsResponse(members), Self);
-		}
-
-		public void Handle(HiveControlMessage message)
-		{
-			
-			router.Tell(message, Self);
+			if (message is ListPluginsRequest)
+			{
+				Sender.Tell(new ListPluginsResponse(members), Self);
+			}
+			else if(message.GetType().IsGenericType && message.GetType().GetGenericTypeDefinition() == typeof(PluginAction<>))
+			{
+				router.Tell(message, Self);
+			}
 		}
 	}
 

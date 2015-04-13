@@ -17,25 +17,102 @@ namespace Hive.Plugin.Messages.Control
 
 			public PluginStatus CurrentStatus { get; private set; }
 		}
+
+		public class Stop
+		{
+			public PluginStatus CurrentStatus { get; private set; }
+
+			public Stop(PluginStatus currentStatus)
+			{
+				CurrentStatus = currentStatus;
+			}
+		}
+
+		public class Pause
+		{
+			public PluginStatus CurrentStatus { get; private set; }
+
+			public Pause(PluginStatus currentStatus)
+			{
+				CurrentStatus = currentStatus;
+			}
+		}
+
+		public class Delete
+		{
+			public PluginStatus CurrentStatus { get; private set; }
+
+			public Delete(PluginStatus currentStatus)
+			{
+				CurrentStatus = currentStatus;
+			}
+		}
+
+		public class UnPause
+		{
+			public PluginStatus CurrentStatus { get; private set; }
+
+			public UnPause(PluginStatus currentStatus)
+			{
+				CurrentStatus = currentStatus;
+			}
+		}
 	}
 
-	public class PluginActions
+	public abstract class PluginActionRequest { }
+	
+	public class PluginAction<TRequest> : ITargetPlugin where TRequest : PluginActionRequest
 	{
-		public class StartRequest
-		{	
+		public PluginAction() { } 
+		public PluginAction(string targetPluginId)
+		{
+			TargetPluginId = targetPluginId;
 		}
 
-		public class AcknowledgedResponse
-		{
-		}
+		public string TargetPluginId { get; private set; }
+	}
 
-		public class NotUnderstoodResponse
-		{
-		}
+	public interface ITargetPlugin
+	{
+		string TargetPluginId { get; }
+	}
 
-		public class StatusRequest
-		{
-			
-		}
+	public abstract class PluginActionResponse { }
+	public class PluginResponse<TResponse> where TResponse : PluginActionResponse { }
+
+	public class StartRequest : PluginActionRequest
+	{
+	}
+
+	public class AcknowledgedResponse : PluginActionResponse
+	{
+	}
+
+	public class NotUnderstoodResponse : PluginActionResponse
+	{
+	}
+
+	public class StatusRequest : PluginActionRequest
+	{
+	}
+
+	public class StopRequest : PluginActionRequest
+	{
+	}
+
+	public class PauseRequest : PluginActionRequest
+	{
+	}
+
+	public class DeleteRequest : PluginActionRequest
+	{
+	}
+
+	public class NotSupportedResponse : PluginActionResponse
+	{
+	}
+
+	public class UnPauseRequest : PluginActionRequest
+	{
 	}
 }

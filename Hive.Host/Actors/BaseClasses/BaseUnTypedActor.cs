@@ -8,6 +8,6 @@ namespace Hive.Host.Actors.BaseClasses
 	/// </summary>
 	public abstract class BaseUntypedActor : UntypedActor
 	{
-		protected readonly LoggingAdapter Logger = Logging.GetLogger(Context);
+		protected readonly ILoggingAdapter Logger = Logging.GetLogger(Context);
 	}
 }

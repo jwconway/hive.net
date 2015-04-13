@@ -30,14 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka">
-      <HintPath>..\packages\Akka.1.0.0-dev1504032244\lib\net45\Akka.dll</HintPath>
+    <Reference Include="Akka, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Akka.1.0.0\lib\net45\Akka.dll</HintPath>
     </Reference>
     <Reference Include="Akka.TestKit">
-      <HintPath>..\packages\Akka.TestKit.1.0.0-dev1504032244\lib\net45\Akka.TestKit.dll</HintPath>
+      <HintPath>..\packages\Akka.TestKit.1.0.0\lib\net45\Akka.TestKit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Akka.TestKit.Xunit">
-      <HintPath>..\packages\Akka.TestKit.Xunit.1.0.0-dev1504032244\lib\net45\Akka.TestKit.Xunit.dll</HintPath>
+      <HintPath>..\packages\Akka.TestKit.Xunit.1.0.0\lib\net45\Akka.TestKit.Xunit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
@@ -58,7 +61,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PluginControllerActorSpec.cs" />
+    <Compile Include="PluginControllerActor_Base_TestSpec.cs" />
+    <Compile Include="PluginControllerActor_UnPause_TestSpec.cs" />
+    <Compile Include="PluginControllerActor_Pause_TestSpec.cs" />
+    <Compile Include="PluginControllerActor_Delete_TestSpec.cs" />
+    <Compile Include="PluginControllerActor_Stop_TestSpec.cs" />
+    <Compile Include="PluginControllerActor_Start_TestSpec.cs" />
+    <Compile Include="PluginControllerActor_Status_TestSpec.cs" />
+    <Compile Include="Plugin_DI_TestSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

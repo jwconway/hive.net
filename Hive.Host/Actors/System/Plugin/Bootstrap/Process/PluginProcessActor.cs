@@ -3,6 +3,7 @@ using Akka.Actor;
 using Hive.Host.Actors.BaseClasses;
 using Hive.Host.Messages;
 using Hive.Plugin;
+using Hive.Plugin.Plugin.Process;
 
 namespace Hive.Host.Actors.System.Plugin.Bootstrap.Process
 {
@@ -22,7 +23,7 @@ namespace Hive.Host.Actors.System.Plugin.Bootstrap.Process
 
 			//marshal a new object out of the new app doamin into this one and start the ball rolling
 			var pluginProcessMarshaller = message.PluginAppDomain.CreateInstanceAndUnwrap(typeof(PluginProcessMarshaller).Assembly.FullName, typeof(PluginProcessMarshaller).FullName) as PluginProcessMarshaller;
-			pluginProcessMarshaller.SetupPluginProcessActorSystem(message.Port);
+			pluginProcessMarshaller.SetupPluginProcessActorSystem();
 		}
 	}
 }

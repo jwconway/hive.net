@@ -12,7 +12,7 @@ namespace Hive.Host.Actors.System.Plugin.Store.FileSystem
 	{
 		public void Handle(FilesInPathRequest message)
 		{
-			Sender.Tell(new FilesInPathResponse(Directory.GetFiles(message.DirectoryPath, message.Filter)), Self);
+			Sender.Tell(new FilesInPathResponse(Directory.GetFiles(message.DirectoryPath, message.Filter, SearchOption.AllDirectories)), Self);
 		}
 	}
 }

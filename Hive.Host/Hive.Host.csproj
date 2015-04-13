@@ -30,16 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka">
-      <HintPath>..\packages\Akka.1.0.0-dev1504032244\lib\net45\Akka.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Akka, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Akka.1.0.0\lib\net45\Akka.dll</HintPath>
     </Reference>
     <Reference Include="Akka.Cluster">
-      <HintPath>..\packages\Akka.Cluster.1.0.0-dev1504032244\lib\net45\Akka.Cluster.dll</HintPath>
+      <HintPath>..\packages\Akka.Cluster.1.0.0-pre1504092226\lib\net45\Akka.Cluster.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Akka.Remote">
-      <HintPath>..\packages\Akka.Remote.1.0.0-dev1504032244\lib\net45\Akka.Remote.dll</HintPath>
+      <HintPath>..\packages\Akka.Remote.1.0.0\lib\net45\Akka.Remote.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.ProtocolBuffers">
@@ -72,6 +72,8 @@
   <ItemGroup>
     <Compile Include="Actors\System\Cluster\ClusterMonitorActor.cs" />
     <Compile Include="Actors\System\Cluster\ClusterBusNodeActor.cs" />
+    <Compile Include="ActorSystemExtensions.cs" />
+    <Compile Include="Hive.cs" />
     <Compile Include="Messages\RegisterMessage.cs" />
     <Compile Include="Messages\AddRouteToBroadCastListMessage.cs" />
     <Compile Include="Actors\BaseClasses\BaseUnTypedActor.cs" />
@@ -90,20 +92,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="protos\google\protobuf\csharp_options.proto" />
-    <None Include="protos\google\protobuf\descriptor.proto" />
-    <None Include="protos\tutorial\addressbook.proto" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hive.Plugin\Hive.Plugin.csproj">
       <Project>{667E0A45-8E2F-4A31-81EA-DC2B2D522DB9}</Project>
       <Name>Hive.Plugin</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CHANGES.txt" />
-    <Content Include="licenses\license.txt" />
-    <Content Include="licenses\protoc-license.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Actors\System\Plugin\Store\Nuget\" />

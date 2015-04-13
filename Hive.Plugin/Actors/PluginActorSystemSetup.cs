@@ -1,25 +1,23 @@
 ﻿using System.Threading;
 using Akka.Actor;
 using Akka.Configuration;
+using Hive.Plugin.Actors.Plugin;
 
-namespace Hive.Plugin.Actors.Plugin
+namespace Hive.Plugin.Actors
 {
 	/// <summary>
 	/// Sets up the actor system in the plugin appdomain
 	/// </summary>
 	public class PluginActorSystemSetup
 	{
-		public void Initialize(int port)
+		public void Initialize()
 		{
 			var th = new Thread(DoInitialize);
-			th.Start(port);
-			Thread.Sleep(2000);
+			th.Start();
 		}
 
-		private void DoInitialize(object state)
+		private void DoInitialize()
 		{
-			int port = (int)state;
-			var bind = new Akka.Cluster.ClusterEvent();// .Remote.AddressUid();//this serves no other purpose than to load the Akk.Remote assembly into this app domain
 			PluginHelper.ForceLoadAssemblies();
 			
 			var config = ConfigurationFactory.ParseString(@"
@@ -48,7 +46,8 @@ namespace Hive.Plugin.Actors.Plugin
 			");
 			using (var system = ActorSystem.Create("Hive", config))
 			{
-				var actor = system.ActorOf(Props.Create(() => new PluginControllerActor(new PluginAppStart())), "controller");
+				var dependencyResolver = PluginHelper.InitializePlugin(system);
+				var actor = system.ActorOf(dependencyResolver.Create<PluginControllerActor>(), "controller");
 				while (true)
 				{
 					Thread.Sleep(1000);

@@ -1,6 +1,8 @@
 ﻿using System;
 using Akka.Actor;
+using Akka.Dispatch.SysMsg;
 using Hive.Plugin.Messages.Control;
+using Hive.Plugin.Plugin;
 
 namespace Hive.Plugin.Actors.Plugin
 {
@@ -9,12 +11,14 @@ namespace Hive.Plugin.Actors.Plugin
 	/// </summary>
 	public class PluginControllerActor : UntypedActor, IHandle<PluginStatusChangeMessage>
 	{
+		public IPluginIdentity PluginIdentity { get; set; }
 		private readonly IPluginAppStart pluginAppStart;
 		private IActorRef PluginActorRef;
 		private PluginStatus PluginStatus;
 
-		public PluginControllerActor(IPluginAppStart pluginAppStart)
+		public PluginControllerActor(IPluginIdentity pluginIdentity, IPluginAppStart pluginAppStart)
 		{
+			PluginIdentity = pluginIdentity;
 			this.pluginAppStart = pluginAppStart;
 			PluginStatus = PluginStatus.Stopped;
 			PluginActorRef = Context.ActorOf(Props.Create(()=> new PluginActor(pluginAppStart)));
@@ -22,14 +26,59 @@ namespace Hive.Plugin.Actors.Plugin
 
 		protected override void OnReceive(object message)
 		{
-			if (message is PluginActions.StatusRequest)
+			if(!message.IsForMe(PluginIdentity.PluginId))
+			{
+				Sender.Tell(new PluginResponse<PluginIgnoredResponse>());	
+			}
+
+			if (message is PluginAction<StatusRequest>)
 			{
 				Sender.Tell(new PluginStatusResponse(PluginStatus));
 			}
-			else if (message is PluginActions.StartRequest)
+			else if (message is PluginAction<StartRequest>)
 			{
+				if (PluginStatus != PluginStatus.Stopped)
+				{
+					Sender.Tell(new PluginResponse<NotSupportedResponse>());
+				}
 				PluginActorRef.Tell(new PluginControlMessages.Start(PluginStatus));
-				Sender.Tell(new PluginActions.AcknowledgedResponse());
+				Sender.Tell(new PluginResponse<AcknowledgedResponse>());
+			}
+			else if (message is PluginAction<StopRequest>)
+			{
+				if (PluginStatus != PluginStatus.Running && PluginStatus != PluginStatus.Paused)
+				{
+					Sender.Tell(new PluginResponse<NotSupportedResponse>());
+				}
+				PluginActorRef.Tell(new PluginControlMessages.Stop(PluginStatus));
+				Sender.Tell(new PluginResponse<AcknowledgedResponse>());
+			}
+			else if (message is PluginAction<PauseRequest>)
+			{
+				if (PluginStatus != PluginStatus.Running)
+				{
+					Sender.Tell(new PluginResponse<NotSupportedResponse>());
+				}
+				PluginActorRef.Tell(new PluginControlMessages.Pause(PluginStatus));
+				Sender.Tell(new PluginResponse<AcknowledgedResponse>());
+			}
+			else if (message is PluginAction<UnPauseRequest>)
+			{
+				if (PluginStatus != PluginStatus.Paused)
+				{
+					Sender.Tell(new PluginResponse<NotSupportedResponse>());
+				}
+				PluginActorRef.Tell(new PluginControlMessages.UnPause(PluginStatus));
+				Sender.Tell(new PluginResponse<AcknowledgedResponse>());
+			}
+			else if (message is PluginAction<DeleteRequest>)
+			{
+				if (PluginStatus != PluginStatus.Stopped)
+				{
+					Sender.Tell(new PluginResponse<NotSupportedResponse>());
+				}
+				PluginActorRef.Tell(new PluginControlMessages.Delete(PluginStatus));
+				Sender.Tell(new PluginResponse<AcknowledgedResponse>());
 			}
 			else if (message is PluginStatusChangeMessage)
 			{
@@ -38,7 +87,7 @@ namespace Hive.Plugin.Actors.Plugin
 			else
 			{
 				Console.WriteLine("Thanks for the message but i dont understand '" + message + "'!!");
-				Sender.Tell(new PluginActions.NotUnderstoodResponse());
+				Sender.Tell(new PluginResponse<NotUnderstoodResponse>());
 			}
 		}
 
@@ -48,45 +97,12 @@ namespace Hive.Plugin.Actors.Plugin
 		}
 	}
 
-	public interface IPluginAppStart
+	public interface IPluginIdentity
 	{
-		void StartPluginApp();
+		string PluginId { get; }
 	}
 
-	public class PluginAppStart : IPluginAppStart
+	public class PluginIgnoredResponse : PluginActionResponse
 	{
-		public void StartPluginApp()
-		{
-			
-		}
-	}
-
-	public class PluginActor : UntypedActor
-	{
-		private readonly IPluginAppStart pluginAppStart;
-
-		public PluginActor(IPluginAppStart pluginAppStart)
-		{
-			this.pluginAppStart = pluginAppStart;
-		}
-
-		protected override void OnReceive(object message)
-		{
-			if (message is PluginControlMessages.Start)
-			{
-				var startMessage = (PluginControlMessages.Start)message;
-				try
-				{	
-					Sender.Tell(new PluginStatusChangeMessage(startMessage.CurrentStatus, PluginStatus.Starting));
-					//start plugin
-					pluginAppStart.StartPluginApp();
-					Sender.Tell(new PluginStatusChangeMessage(startMessage.CurrentStatus, PluginStatus.Running));
-				}
-				catch(Exception ex)
-				{
-					Sender.Tell(new PluginStatusChangeMessage(startMessage.CurrentStatus, PluginStatus.Faulted));
-				}
-			}
-		}
 	}
 }

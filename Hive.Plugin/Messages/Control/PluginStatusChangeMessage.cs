@@ -2,13 +2,13 @@
 {
 	public class PluginStatusChangeMessage
 	{
-		public PluginStatusChangeMessage(PluginStatus oldStatus, PluginStatus newStatus)
+		public PluginStatusChangeMessage(PluginStatus newStatus)
 		{
 			NewStatus = newStatus;
-			OldStatus = oldStatus;
+			//OldStatus = oldStatus;
 		}
 
-		public PluginStatus OldStatus { get; private set; }
+		//public PluginStatus OldStatus { get; private set; }
 		public PluginStatus NewStatus { get; private set; }
 	}
 }

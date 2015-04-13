@@ -15,6 +15,8 @@ namespace Hive.Plugin.Messages.Control
 		Paused,
 		Unpausing,
 		Stopping,
-		Faulted
+		Faulted,
+		Deleting,
+		Deleted
 	}
 }
